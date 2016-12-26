@@ -1,0 +1,31 @@
+Metadata-Version: 2.0
+Name: stravalib
+Version: 0.6.3
+Summary: Python library for interacting with Strava v3 REST API
+Home-page: http://github.com/hozn/stravalib
+Author: Hans Lellelid
+Author-email: hans@xmpl.org
+License: Apache
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Intended Audience :: Developers
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Requires-Dist: arrow
+Requires-Dist: pytz
+Requires-Dist: requests (<3.0dev,>=2.0)
+Requires-Dist: six
+Requires-Dist: units
+
+stravalib is a Python 2.7 and 3.x library that provides a simple API for interacting
+with the Strava activity tracking website.
+
+Changes in 0.6.3
+----------------
+* Fixed update_activity to include description (#91)
+
+
+

@@ -1,0 +1,14 @@
+{
+    "strava_club_id":"clubid",
+    "strava_ride_limit":10,
+    "strava_access_token":"stravatoken",
+    "min_distance":20000,
+    "blacklist":[],
+    "whitelist":[],
+	  "blacklistridenames":["Morning Ride","Afternoon Ride","Evening Ride","Lunch Ride"],
+    "slack_channel":"rides",
+    "slack_username":"stravabot",
+    "slack_icon_emoji":":bicyclist:",
+    "slack_token":"slacktoken",
+    "dynamodb_table":"activity1"
+}

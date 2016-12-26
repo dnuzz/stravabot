@@ -94,3 +94,4 @@ ENV/
 
 # Personal Config Files
 configPERSONAL.json
+.vs/
