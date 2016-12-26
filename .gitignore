@@ -89,8 +89,8 @@ ENV/
 .ropeproject
 
 # Visual Studio Files
-.pyproj
-.sln
+*.pyproj
+*.sln
 
 # Personal Config Files
 configPERSONAL.json
