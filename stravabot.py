@@ -6,6 +6,7 @@ import json
 import re
 import os
 import csv
+import random
 
 with open('config.json') as data_file:
     config = json.load(data_file)
@@ -22,6 +23,8 @@ dynamodbTable = boto3.resource('dynamodb').Table(config["dynamodb_table"])
 token = config["slack_token"]
 sc = SlackClient(token)
 
+hecklestrings = ["Look @channel ! $name rode his bike!","$name will be ready for the Cat 4's in 6 months!","$name rode $miles , he can now eat $candy bags of candy"]
+
 
 def get_new_rides_for_club():
     client = Client()
@@ -34,8 +37,6 @@ def filter_rides(rides):
     min_distance=config["min_distance"]
     blacklist=config["blacklist"]
     whitelist = config["whitelist"]
-    blacklistridenames = config["blacklistridenames"]
-    blregex = "^Zwift"
     filtered_rides=[]
     for ride in rides:
         if (
@@ -48,13 +49,16 @@ def filter_rides(rides):
             and
             (ride.athlete.id not in blacklist)
             and
-            (ride.name not in blacklistridenames)
-            and
-            (re.match(blregex,ride.name) is None))
+            (bl_regex_check(ride.name) is False))
             or ride.athlete.lastname in whitelist): 
                 filtered_rides.append(ride)
     return filtered_rides
 
+def bl_regex_check(ridename):
+	for blregex in config["blacklistridenames"]:
+		if(re.search(blregex,ridename) is not None)
+			return True
+	return False
     
 def slack_ride(ride):
     msg='<https://www.strava.com/activities/'+str(ride.id)+'|'+ride.athlete.firstname+' '+ride.athlete.lastname+': '+ride.name+'>';
@@ -65,9 +69,25 @@ def slack_ride(ride):
                 icon_emoji=config["slack_icon_emoji"],
                 unfurl_links=True,
                 unfurl_media=True)
+	if(ride.athlete.lastname is in config["HeckleName"]):
+		heckle(ride)
     return
 
-    
+	
+def heckle(ride):
+    msg=random.choice(hecklestrings)
+	msg=msg.replace("$name",ride.firstname)
+	msg=msg.replace("$miles",str(ride.distance / 1609.34))
+	msg=msg.replace("$candy",str(ride.calories / 1500))
+	sc.api_call("chat.postMessage",
+				channel=config["slack_channel"],
+				text=msg,
+				username=config["slack_username"],
+                icon_emoji=config["slack_icon_emoji"],
+                unfurl_links=True,
+                unfurl_media=True)
+	return
+	
 def is_new_ride(ride):
         # lookup ride in dynamo
         response = dynamodbTable.query(

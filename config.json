@@ -5,10 +5,11 @@
     "min_distance":20000,
     "blacklist":[],
     "whitelist":[],
-	  "blacklistridenames":["Morning Ride","Afternoon Ride","Evening Ride","Lunch Ride"],
+	"blacklistridenames":["^Morning Ride","^Afternoon Ride","^Evening Ride","^Lunch Ride","^Zwift"],
     "slack_channel":"rides",
     "slack_username":"stravabot",
     "slack_icon_emoji":":bicyclist:",
     "slack_token":"slacktoken",
     "dynamodb_table":"activity1"
+	"heckle_names":[]
 }
