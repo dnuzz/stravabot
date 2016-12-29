@@ -10,6 +10,6 @@
     "slack_username":"stravabot",
     "slack_icon_emoji":":bicyclist:",
     "slack_token":"slacktoken",
-    "dynamodb_table":"activity1"
+    "dynamodb_table":"activity1",
 	"heckle_names":[]
 }
