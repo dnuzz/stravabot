@@ -15,7 +15,7 @@ with open('config.json') as data_file:
             if(type(value) is int):
                 config[key] = os.environ[key]
             if(type(value) is list):
-                config[key] = list(csv.reader(os.environ[key]))
+                config[key] = os.environ[key].split('_')
             else:
                 config[key] = os.environ[key]
 
@@ -76,9 +76,10 @@ def slack_ride(ride):
     
 def heckle(ride):
     msg=random.choice(hecklestrings)
-    msg=msg.replace("$name",ride.firstname)
-    msg=msg.replace("$miles",str(ride.distance / 1609.34))
-    msg=msg.replace("$candy",str(ride.calories / 1500))
+    msg=msg.replace("$name",ride.athlete.firstname)
+    if(ride.distance is not None): msg=msg.replace("$miles",str(ride.distance / 1609.34))
+    if(ride.calories is not None): msg=msg.replace("$candy",str(ride.calories / 1500))
+    if(ride.kilojoules is not None): msg=msg.replace("$candy",str(ride.kilojoules / 1500))
     sc.api_call("chat.postMessage",
                 channel=config["slack_channel"],
                 text=msg,

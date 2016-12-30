@@ -1,3 +1,3 @@
-from main import handler
+from main import test_slack
 
-handler (context={"context":"context"},event={"event":"event"})
+test_slack()
