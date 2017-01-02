@@ -25,6 +25,22 @@ sc = SlackClient(token)
 
 hecklestrings = ["Look @channel ! $name rode his bike!","$name will be ready for the Cat 4's in 6 months!","$name rode $miles , he can now eat $candy bags of candy"]
 
+def handler(event, context):
+    print event
+    print context
+    # check strava for new rides
+    # filter out rides already recorded in dynamodb
+    # record rides in dynamodb
+    # filter rides based on config criteria
+    # send rides to slack
+    
+    rides = get_new_rides_for_club()
+    filteredrides = filter_rides(rides)
+    for ride in filteredrides:
+        if is_new_ride(ride):
+            record_ride(ride)
+            slack_ride(ride)
+    return {'result': "success"}
 
 def get_new_rides_for_club():
     client = Client()
@@ -65,8 +81,7 @@ def slack_ride(ride):
     sc.api_call("chat.postMessage",
                 channel=config["slack_channel"],
                 text=msg,
-                username=config["slack_username"],
-                icon_emoji=config["slack_icon_emoji"],
+				as_user=True,
                 unfurl_links=True,
                 unfurl_media=True)
     if(ride.athlete.lastname in config["heckle_names"]):
@@ -83,8 +98,8 @@ def heckle(ride):
     sc.api_call("chat.postMessage",
                 channel=config["slack_channel"],
                 text=msg,
-                username=config["slack_username"],
-                icon_emoji=config["slack_icon_emoji"],
+                as_user=True,
+				link_names=1,
                 unfurl_links=True,
                 unfurl_media=True)
     return
