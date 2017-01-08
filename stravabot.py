@@ -107,7 +107,7 @@ def heckle(ride):
 def is_new_ride(ride):
         # lookup ride in dynamo
         response = dynamodbTable.query(
-            KeyConditionExpression = Key('lastname').eq(ride.athlete.lastname) & Key('title').eq(ride.name+str(ride.id))
+            KeyConditionExpression = Key('lastname').eq(ride.athlete.lastname) & Key('title').eq(str(ride.id))
         )
         items = response['Items']
         if len(items)==0:
@@ -121,7 +121,7 @@ def record_ride(ride):
     response = dynamodbTable.put_item(
         Item={
             "lastname": ride.athlete.lastname,
-            "title": (ride.name+str(ride.id))
+            "title": (str(ride.id))
         }
     )
     return
