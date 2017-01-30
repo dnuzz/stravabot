@@ -23,7 +23,7 @@ dynamodbTable = boto3.resource('dynamodb').Table(config["dynamodb_table"])
 token = config["slack_token"]
 sc = SlackClient(token)
 
-hecklestrings = ["Look @channel ! $name rode his bike!","$name will be ready for the Cat 4's in 6 months!","$name rode $miles , he can now eat $candy bags of candy"]
+hecklestrings = ["Look @channel ! $name rode his bike!","$name will be ready for the Cat 4's in 6 months!","$name rode $miles miles , he can now eat $candy bags of candy"]
 
 def handler(event, context):
     print event
@@ -84,7 +84,7 @@ def slack_ride(ride):
 				as_user=True,
                 unfurl_links=True,
                 unfurl_media=True)
-    if(ride.athlete.lastname in config["heckle_names"]):
+    if(ride.athlete.id in config["heckle_names"] or ride.athlete.lastname in config["heckle_names"]):
         heckle(ride)
     return
 
